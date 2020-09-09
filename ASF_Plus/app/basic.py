@@ -65,3 +65,6 @@ def getConfigPath():
 		return os.path.abspath('hoshino/modules/ASF_Plus/config')
 	else:
 		return os.path.abspath('config')
+
+if not os.path.isdir(getConfigPath()):
+	os.mkdir(getConfigPath())
