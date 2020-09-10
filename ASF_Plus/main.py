@@ -43,10 +43,10 @@ async def e(session):
 	elif  len(para) == 2 and para[0] in findCommand:
 		abot = asfbot(para[1])
 		if abot.exist:
-			if sender == abot.owner:
-				await session.send('是你的BOT')
-			else:
-				await session.send('不是你的')
+			msgChain = ''
+			b_id = abot.config['SteamID']
+			msgChain = msgChain + abot.config['Nickname'] + f'\n\nDestiny Report:\n★RaidReport:https://raid.report/pc/{b_id}\n★DungeonReport:https://dungeon.report/pc/{b_id}\n★DestinyTracker:https://destinytracker.com/destiny-2/profile/steam/{b_id}/overview'
+			await session.send(msgChain)
 		else:
 			await session.send('查找不到这个bot噢')
 				
