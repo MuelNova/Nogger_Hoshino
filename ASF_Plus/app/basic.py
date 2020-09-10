@@ -1,5 +1,5 @@
 # 填写ASF密码在这
-pw = 'password'
+pw = 'pw'
 
 class asfbot:
 	def __init__(self,name):
