@@ -2,4 +2,4 @@
 modules for own hoshino bot
 
 ## ASF_Plus
-Editing...
+`Basic Usage:【@Bot ASF [功能] [Para1] [Para2] ...】
