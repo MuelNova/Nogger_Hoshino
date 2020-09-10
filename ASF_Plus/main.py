@@ -6,7 +6,7 @@ sv = Service('asf_plus', help_='''发送asf_help获取详情''', bundle='ASF')
 
 
 # 填写主人QQ
-owner = 4050909
+master = [4050909]
 bindCommand = ['bind','绑定','Bind','绑','BIND']
 findCommand = ['查','查询','Find','Search','find','search']
 delCommand = ['删','删除']
@@ -19,7 +19,7 @@ async def e(session):
     
 	if len(para) >= 2 and para[0] in bindCommand:
 		abot = asfbot(para[1])
-		if sender == str(master) and len(para) >= 3:
+		if int(sender) in master and len(para) >= 3:
 			if abot.exist:
 				abot.delBot()
 			if re.match('[0-9]{5,11}',para[2]):
@@ -52,7 +52,7 @@ async def e(session):
 				
 	elif len(para) == 2 and para[0] in delCommand:
 		abot = asfbot(para[1])
-		if sender == abot.owner or sender == str(master):
+		if sender == abot.owner or int(sender) in master:
 			abot.delBot()
 			if not abot.exist:
 				await session.send(f'删除BOT{abot.name}成功')
