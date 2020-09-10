@@ -53,7 +53,7 @@ def asf_re(par,bot='',req=[]):
 		
 def asf_addBot(bot,owner):
 	path = os.path.join(getConfigPath(),f'{bot}.cfg')
-	data = asf_re('Bot',bot)
+	data = asf_re('Bot',bot)[bot]
 	if data:
 		with open(path,'w') as config:
 			data.update({'Owner':str(owner)})
