@@ -12,7 +12,7 @@ bindCommand = ['bind','绑定','Bind','绑','BIND']
 findCommand = ['查','查询','Find','Search','find','search']
 delCommand = ['删','删除']
 startCommand = ['开启','开']
-stopCommand = ['停止','停']
+stopCommand = ['关闭','关','停止','停']
 
 @sv.on_command('ASF',aliases=['asf','asfbot'],only_to_me=True)
 async def e(session):
