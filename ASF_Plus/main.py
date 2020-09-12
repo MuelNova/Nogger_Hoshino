@@ -1,4 +1,5 @@
 from .app.basic import asfbot
+from .app.asf_plus import  ASF_Plus
 from hoshino import *
 import re
 
@@ -10,13 +11,34 @@ master = [4050909]
 bindCommand = ['bind','绑定','Bind','绑','BIND']
 findCommand = ['查','查询','Find','Search','find','search']
 delCommand = ['删','删除']
+startCommand = ['开启','开']
+stopCommand = ['停止','停']
 
 @sv.on_command('ASF',aliases=['asf','asfbot'],only_to_me=True)
 async def e(session):
 	msg = session.current_arg
 	sender = str(session.ctx['user_id'])
 	para = msg.split(' ')
-    
+	if len(para) >= 1:
+		
+		# 开启Bot
+		if para[0] in startCommand:
+			if len(para) >= 2:
+				abot = ASF_Plus(para[1])
+				await session.send(abot.bot + ': 正在启用Bot...')
+				if len(para) >= 3:
+					await session.send(abot.startBot(para[2]))
+				else:
+					await session.send(abot.startBot())
+					
+		# 关闭Bot
+		if para[0] in stopCommand:
+			if len(para) >= 2:
+				abot = ASF_Plus(para[1])
+				await session.send(abot.bot + ': 正在关闭Bot...')
+				await session.send(abot.stopBot())
+			
+'''
 	if len(para) >= 2 and para[0] in bindCommand:
 		abot = asfbot(para[1])
 		if int(sender) in master and len(para) >= 3:
@@ -63,3 +85,4 @@ async def e(session):
 		
 	else:
 		await session.send('错误的参数，请输入【@BOT ASF 帮助】查看使用方法')
+'''
