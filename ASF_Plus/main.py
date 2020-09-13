@@ -75,7 +75,11 @@ async def e(session):
 						await session.send(f'ERROR:{abot.bot} 已经被绑定到{botd.get(para[1])}')
 					else:
 						botd.set(para[1],sender)
-						bots = datab.get('bot') if datab.get('bot') else set()
+						if datab.get('bot'):
+							bots = datab.get('bot')
+						else:
+							bots = set()
+							datab.set('defaultBot',para[1])
 						bots.add(para[1])
 						datab.set('bot',bots)
 						await session.send(f'成功: {abot.bot} 已经被绑定到' + MessageSegment.at(int(sender)))
@@ -94,6 +98,8 @@ async def e(session):
 						bots.discard(para[1])
 						datab.set('bot',bots)
 						botd.set(para[1])
+						if datab.get('defaultBot') and para[1] == datab.get('defaultBot'):
+							datab.set('defaultBot')
 					else:
 						await session.send(f'ERROR: {para[1]} 并不属于你')
 				else:
