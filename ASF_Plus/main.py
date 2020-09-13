@@ -1,6 +1,8 @@
 from .app.basic import asfbot
 from .app.asf_plus import  ASF_Plus
+from .app.database import db
 from hoshino import *
+from nonebot import *
 import re
 
 sv = Service('asf_plus', help_='''发送asf_help获取详情''', bundle='ASF')
@@ -12,7 +14,8 @@ bindCommand = ['bind','绑定','Bind','绑','BIND']
 findCommand = ['查','查询','Find','Search','find','search']
 delCommand = ['删','删除']
 startCommand = ['开启','开']
-stopCommand = ['关闭','关','停止','停']
+stopCommand = ['停止','停','关闭','关']
+setDefaultCommand = ['设置默认','默认']
 
 @sv.on_command('ASF',aliases=['asf','asfbot'],only_to_me=True)
 async def e(session):
@@ -20,10 +23,16 @@ async def e(session):
 	sender = str(session.ctx['user_id'])
 	para = msg.split(' ')
 	if len(para) >= 1:
-		
+		datab = db(sender)
 		# 开启Bot
 		if para[0] in startCommand:
-			if len(para) >= 2:
+			if datab.get('defaultBot') and len(para) == 1:
+				abot = ASF_Plus(datab.get('defaultBot'))
+				await session.send(abot.bot + ': 正在启用Bot...')
+				await session.send(abot.startBot())
+				
+			
+			elif len(para) >= 2:
 				abot = ASF_Plus(para[1])
 				await session.send(abot.bot + ': 正在启用Bot...')
 				if len(para) >= 3:
@@ -33,10 +42,38 @@ async def e(session):
 					
 		# 关闭Bot
 		if para[0] in stopCommand:
+			if datab.get('defaultBot') and len(para) == 1:
+				abot = ASF_Plus(datab.get('defaultBot'))
+				await session.send(abot.bot + ': 正在关闭Bot...')
+				await session.send(abot.stopBot())
+
 			if len(para) >= 2:
 				abot = ASF_Plus(para[1])
 				await session.send(abot.bot + ': 正在关闭Bot...')
 				await session.send(abot.stopBot())
+			
+		#设置默认Bot
+		
+		if para[0] in setDefaultCommand:
+			if len(para) == 2:
+				abot = ASF_Plus(para[1])
+				if not 'err' in abot.getBot():
+					datab.set('defaultBot',abot.bot)
+					await session.send(f'已成功将{abot.bot}设置为' + MessageSegment.at(int(sender)) + '的默认Bot')
+					
+		if para[0] in bindCommand:
+			if len(para) == 2:
+				abot = ASF_Plus(para[1])
+				if not 'err' in abot.getBot():
+					botd = db('Bot')
+					if botd.get(para[1]):
+						await session.send(f'ERROR:{abot.bot} 已经被绑定到{botd.get(para[1])}')
+					else:
+						botd.set(para[1],sender)
+						bots = db.get('bot') if db.get('bot') else set()
+						bots.add(para[1])
+						db.set('bot',bots)
+						await session.send(f'成功: {abot.bot} 已经被绑定到' + MessageSegment.at(int(sender)))
 			
 '''
 	if len(para) >= 2 and para[0] in bindCommand:

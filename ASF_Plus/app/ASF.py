@@ -159,3 +159,14 @@ class ASF(object):
 		w = requests.post(self.__pathCreate('Bot/testAc/Stop'),timeout=20,json=[])
 		print(w.text)
 		
+'''Debug
+a=ASF('https://asf.novanoir.cn/','dalizm8881018')
+if 'er' in a.bot_get('黑鬼'):
+	print('Ye')
+#a.debug('92VB7')
+#print(a.initLog('/home/asf/ArchiSteamFarm/log.txt'))
+#print(a.generateLog())
+# print(a.bot_login('testAc','8RFCK'))
+#print(a.bot_stop('testAc'))
+print(a.ASF_post('Bot/nova/Start'))
+#print(a.bot_get('nova'))'''
