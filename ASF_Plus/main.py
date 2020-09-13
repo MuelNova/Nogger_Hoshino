@@ -57,12 +57,17 @@ async def e(session):
 		if para[0] in setDefaultCommand:
 			if len(para) == 2:
 				abot = ASF_Plus(para[1])
-				if not 'err' in abot.getBot():
+				if datab.get('bot') and para[1] in datab.get('bot'):
 					datab.set('defaultBot',abot.bot)
 					await session.send(f'已成功将{abot.bot}设置为' + MessageSegment.at(int(sender)) + '的默认Bot')
+				else:
+					await session.send(f'ERROR: {para[1]}并不属于{sender}')
 					
 		if para[0] in bindCommand:
-			if len(para) == 2:
+			if len(para) >= 2:
+				if len(para) == 3 and int(sender) in master:
+					sender = para[2]
+					datab = db(sender)
 				abot = ASF_Plus(para[1])
 				if not 'err' in abot.getBot():
 					botd = db('Bot')
@@ -70,10 +75,31 @@ async def e(session):
 						await session.send(f'ERROR:{abot.bot} 已经被绑定到{botd.get(para[1])}')
 					else:
 						botd.set(para[1],sender)
-						bots = db.get('bot') if db.get('bot') else set()
+						bots = datab.get('bot') if datab.get('bot') else set()
 						bots.add(para[1])
-						db.set('bot',bots)
+						datab.set('bot',bots)
 						await session.send(f'成功: {abot.bot} 已经被绑定到' + MessageSegment.at(int(sender)))
+				else:
+					await session.send('ERROR: ' + abot.getBot()['err'])
+						
+		if para[0] in delCommand:
+			if len(para) == 2:
+				
+				botd = db('Bot')
+				if botd.get(para[1]):
+					if sender == botd.get(para[1]) or int(sender) in master:
+						await session.send(f'完成！{para[1]} 不再属于{botd.get(para[1])}')
+						datab = db(botd.get(para[1]))
+						bots = datab.get('bot')
+						bots.discard(para[1])
+						datab.set('bot',bots)
+						botd.set(para[1])
+					else:
+						await session.send(f'ERROR: {para[1]} 并不属于你')
+				else:
+					await session.send(f'ERROR: 没有Bot {para[1]} 噢')
+		
+			
 			
 '''
 	if len(para) >= 2 and para[0] in bindCommand:
