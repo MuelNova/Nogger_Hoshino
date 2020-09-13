@@ -14,3 +14,4 @@ modules for own hoshino bot
 - [X] 『删除』：`删除 「Bot」`解绑一个bot
 - [X] 『开启』：`开 「Bot」 [令牌]`开启一个bot
 - [X] 『关闭』：`关 「Bot」`关闭一个bot
+- [X] 『默认』：`默认 「Bot」`将一个bot设置为默认机器人
