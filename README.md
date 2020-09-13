@@ -9,8 +9,8 @@ modules for own hoshino bot
 ## ASF_Plus
 **Basic Usage**:`@Bot ASF [功能] [Para1] [Para2] ...`
 
-- [ ] 『绑定』: `绑定 「Bot」`绑定一个bot到你的qq号
+- [X] 『绑定』: `绑定 「Bot」 [QQ号]`绑定一个bot到你的qq号（如果发送者是master的话 可以指定qq号）
 - [ ] 『查询』：`查询 「Bot」`查询一个bot的状态
-- [ ] 『删除』：`删除 「Bot」`解绑一个bot
+- [X] 『删除』：`删除 「Bot」`解绑一个bot
 - [X] 『开启』：`开 「Bot」 [令牌]`开启一个bot
 - [X] 『关闭』：`关 「Bot」`关闭一个bot
