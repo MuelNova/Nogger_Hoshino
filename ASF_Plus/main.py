@@ -17,7 +17,7 @@ startCommand = ['开启','开']
 stopCommand = ['停止','停','关闭','关']
 setDefaultCommand = ['设置默认','默认']
 
-@sv.on_command('ASF',aliases=['asf','asfbot'],only_to_me=True)
+@sv.on_command('ASF',aliases=['asf','asfbot'],only_to_me=False)
 async def e(session):
 	msg = session.current_arg
 	sender = str(session.ctx['user_id'])
@@ -34,11 +34,14 @@ async def e(session):
 			
 			elif len(para) >= 2:
 				abot = ASF_Plus(para[1])
-				await session.send(abot.bot + ': 正在启用Bot...')
-				if len(para) >= 3:
-					await session.send(abot.startBot(para[2]))
+				if (datab.get('bot') and para[1] in datab.get('bot')) or int(sender) in master:
+					await session.send(abot.bot + ': 正在启用Bot...')
+					if len(para) >= 3:
+						await session.send(abot.startBot(para[2]))
+					else:
+						await session.send(abot.startBot())
 				else:
-					await session.send(abot.startBot())
+					await session.send('不是你的Bot你开你妈')
 					
 		# 关闭Bot
 		if para[0] in stopCommand:
@@ -48,9 +51,12 @@ async def e(session):
 				await session.send(abot.stopBot())
 
 			if len(para) >= 2:
-				abot = ASF_Plus(para[1])
-				await session.send(abot.bot + ': 正在关闭Bot...')
-				await session.send(abot.stopBot())
+				if (datab.get('bot') and para[1] in datab.get('bot')) or int(sender) in master:
+					abot = ASF_Plus(para[1])
+					await session.send(abot.bot + ': 正在关闭Bot...')
+					await session.send(abot.stopBot())
+				else:
+					await session.send('不是你的BOT你停你妈')
 			
 		#设置默认Bot
 		
