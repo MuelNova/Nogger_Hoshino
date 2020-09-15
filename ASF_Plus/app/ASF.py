@@ -120,7 +120,7 @@ class ASF(object):
 			tfa = tfa.upper()
 			data = {'Type':'TwoFactorAuthentication','Value':tfa}
 			print(f'令牌{tfa}Post...' + str(self.ASF_post(f'Bot/{botName}/Input', data)))
-			time.sleep(1)
+			time.sleep(2)
 		req = self.ASF_post(f'Bot/{botName}/Start')
 		result = 'Unknown Error'
 		if not req.get('Success') and req.get('Message'):

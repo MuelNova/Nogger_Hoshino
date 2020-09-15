@@ -30,37 +30,41 @@ async def e(session):
 				abot = ASF_Plus(datab.get('defaultBot'))
 				await session.send(abot.bot + ': 正在启用Bot...')
 				await session.send(abot.startBot())
+				return
 				
 			
-			elif len(para) >= 2:
+			elif len(para) >= 2 and len(para) <= 3:
 				abot = ASF_Plus(para[1])
 				if (datab.get('bot') and para[1] in datab.get('bot')) or int(sender) in master:
 					await session.send(abot.bot + ': 正在启用Bot...')
-					if len(para) >= 3:
+					if len(para) == 3:
 						await session.send(abot.startBot(para[2]))
 					else:
 						await session.send(abot.startBot())
 				else:
 					await session.send('不是你的Bot你开你妈')
+				return
 					
 		# 关闭Bot
-		if para[0] in stopCommand:
+		elif para[0] in stopCommand:
 			if datab.get('defaultBot') and len(para) == 1:
 				abot = ASF_Plus(datab.get('defaultBot'))
 				await session.send(abot.bot + ': 正在关闭Bot...')
 				await session.send(abot.stopBot())
+				return
 
-			if len(para) >= 2:
+			if len(para) == 2:
 				if (datab.get('bot') and para[1] in datab.get('bot')) or int(sender) in master:
 					abot = ASF_Plus(para[1])
 					await session.send(abot.bot + ': 正在关闭Bot...')
 					await session.send(abot.stopBot())
 				else:
 					await session.send('不是你的BOT你停你妈')
+				return
 			
 		#设置默认Bot
 		
-		if para[0] in setDefaultCommand:
+		elif para[0] in setDefaultCommand:
 			if len(para) == 2:
 				abot = ASF_Plus(para[1])
 				if datab.get('bot') and para[1] in datab.get('bot'):
@@ -68,9 +72,10 @@ async def e(session):
 					await session.send(f'已成功将{abot.bot}设置为' + MessageSegment.at(int(sender)) + '的默认Bot')
 				else:
 					await session.send(f'ERROR: {para[1]}并不属于{sender}')
+				return
 					
-		if para[0] in bindCommand:
-			if len(para) >= 2:
+		elif para[0] in bindCommand:
+			if len(para) >= 2 and len(para) <= 3:
 				if len(para) == 3 and int(sender) in master:
 					sender = para[2]
 					datab = db(sender)
@@ -91,8 +96,9 @@ async def e(session):
 						await session.send(f'成功: {abot.bot} 已经被绑定到' + MessageSegment.at(int(sender)))
 				else:
 					await session.send('ERROR: ' + abot.getBot()['err'])
+				return
 						
-		if para[0] in delCommand:
+		elif para[0] in delCommand:
 			if len(para) == 2:
 				
 				botd = db('Bot')
@@ -110,8 +116,9 @@ async def e(session):
 						await session.send(f'ERROR: {para[1]} 并不属于你')
 				else:
 					await session.send(f'ERROR: 没有Bot {para[1]} 噢')
+				return
+		await session.send('ERROR：参数错误！请查询\nhttps://github.com/the-25th-Nova/Nogger_Hoshino\n查看所有命令')
 		
-			
 			
 '''
 	if len(para) >= 2 and para[0] in bindCommand:
