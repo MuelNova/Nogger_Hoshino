@@ -1,0 +1,22 @@
+
+{% extends "default.html" %}
+
+{% block body %}
+<h1>{{page_title}}</h1>
+<p>默认BOT名称：{{ user_info }}</p>
+<span><a href="{{ steamUrl }}">Steam</a></span>
+<div class="memInfo">
+  <h1>Bot Info</h1>
+  <div class="memberInfoBox">
+	<img src="{{ avaUrl }}" class="img-circle mem-img"/>
+  </div>
+  <div class="memberInfoBox">
+	{% if gameInfo[0] %}
+	<h1>正在玩</h1>
+	<h3><a href={{gameInfo[2]}}>{{gameInfo[1]}}</a></h3>
+	<img src={{gameInfo[3]}} class="img-rounded game-img"/>
+	{% endif %}
+  </div>
+</div>
+
+{% endblock %}
