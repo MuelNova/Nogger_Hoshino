@@ -79,6 +79,16 @@ def getAvatar(user):
 	if not url:
 		url = 'https://qasf.novanoir.cn/imgs/NWS_Logo2.png.jpg'
 	return url
+	
+def getPlaying(user):
+	game,id = Steam(str(ASF_Plus(user).getBot()['SteamID'])).getPlaying()
+	if not id:
+		game = '没有在玩游戏'
+		return [False,game]
+	
+	url = f'https://store.steampowered.com/app/{id}'
+	imgs = f'https://media.st.dl.pinyuncloud.com/steam/apps/{id}/header.jpg'
+	return [True,game,url,imgs]
 			
 
 app.add_template_global(getUrl, 'getUrl')
@@ -86,6 +96,6 @@ app.add_template_global(getUrl, 'getUrl')
 async def user(usern):
     d = db(usern)
     user_info = d.get('defaultBot')
-    return await render_template('user_info.html', page_title=f'{usern}\'s info',user_info = getNickname(user_info),avaUrl=getAvatar(user_info),steamUrl=getUrl(user_info))
+    return await render_template('user_info.html', page_title=f'{usern}\'s info',user_info = getNickname(user_info),avaUrl=getAvatar(user_info),steamUrl=getUrl(user_info),gameInfo=getPlaying(user_info))
 
 

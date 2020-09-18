@@ -1,6 +1,7 @@
 from .app.basic import asfbot
 from .app.asf_plus import  ASF_Plus
 from .app.database import db
+from .app import web
 from hoshino import *
 from nonebot import *
 import re
@@ -21,6 +22,9 @@ setDefaultCommand = ['设置默认','默认']
 async def e(session):
 	msg = session.current_arg
 	sender = str(session.ctx['user_id'])
+	if msg == '':
+		await session.send(MessageSegment.at(int(sender)) + f':https://qasf.novanoir.cn/{sender}')
+		return
 	para = msg.split(' ')
 	if len(para) >= 1:
 		datab = db(sender)

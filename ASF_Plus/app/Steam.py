@@ -4,7 +4,6 @@ import requests
 
 steamKey = ''
 
-
 class Steam(object):
 	def __init__(self,user=''):
 		if user:
@@ -59,6 +58,16 @@ class Steam(object):
 			return False
 	
 	
+	def getPlaying(self,user=''):
+		'''
+		获取正在游玩
+		返回 '名称','gid'
+		'''
+		rawData = self.getSteamConfig(user)
+		if rawData.get('gameextrainfo'):
+			return rawData.get('gameextrainfo'),rawData.get('gameid')
+		return '',0
+	
 	def getSteamProfile(self,user=''):
 		'''
 		获取个人资料链接（优先返回自定义链接）
@@ -109,14 +118,14 @@ class Steam(object):
 #Debug, del it when release
 
 
-#test = Steam('0')
+test = Steam('nova_noir')
 '''
 print(test.user)
 print(test.regUser('https://steamcommunity.com/profiles/76561197963299487'))
 print(test.regUser('nova_noir'))
 print(test.regUser('76561197963299487'))
 '''
-#print(test.getSteamConfig())
+print(test.getSteamConfig())
 '''
 print(test.getAvatar(size=5))
 '''
