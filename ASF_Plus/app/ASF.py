@@ -1,6 +1,8 @@
+import asyncio
 import os
 import re
 import requests
+import threading
 import time
 
 
@@ -159,9 +161,16 @@ class ASF(object):
 		w = requests.post(self.__pathCreate('Bot/testAc/Stop'),timeout=20,json=[])
 		print(w.text)
 		
+	
+		
 '''Debug
 a=ASF('https://asf.novanoir.cn/','dalizm8881018')
-if 'er' in a.bot_get('黑鬼'):
+a.login_th('nova')
+print('我在')
+time.sleep(2)
+print('我还在')
+
+if 'er' in a.bot_get('黑'):
 	print('Ye')
 #a.debug('92VB7')
 #print(a.initLog('/home/asf/ArchiSteamFarm/log.txt'))
