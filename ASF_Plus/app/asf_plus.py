@@ -12,15 +12,23 @@ url = '填写ASF链接在这'
 class ASF_Plus(ASF):
 	def __init__(self,bot):
 		self.bot = bot
-		super().__init__(url, password)
+		#super().__init__(url, password)
+		
+		
 		try:
 			self.steamID = self.getBot()['SteamID']
 		except:
 			self.steamID = 0
 		
+		def startBot(self,tfa=''):
+			result = f'{self.bot}: {str(self.bot_login(self.bot,tfa))}'
+			return result
+		
+		'''
 	async def startBot(self,session,tfa=''):
 		result = f'{self.bot}: {str(self.bot_login(self.bot,tfa))}'
 		await session.send(result)
+		'''
 	
 	def stopBot(self):
 		result = f'{self.bot}: {str(self.bot_stop(self.bot))}'

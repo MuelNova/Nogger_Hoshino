@@ -33,7 +33,7 @@ async def e(session):
 			if datab.get('defaultBot') and len(para) == 1:
 				abot = ASF_Plus(datab.get('defaultBot'))
 				await session.send(abot.bot + ': 正在启用Bot...')
-				await abot.th_startBot(session)
+				await session.send(abot.startBot())
 				return
 				
 			
