@@ -1,1 +1,2 @@
-# ASF_Plus: ??HoshinoBot?ASF????
+# ASF_Plus: BotQQWEB
+# nPixiv: BotPixiv
