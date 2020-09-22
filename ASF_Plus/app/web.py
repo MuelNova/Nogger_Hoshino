@@ -81,8 +81,11 @@ def getAvatar(user):
 	return url
 	
 def getPlaying(user):
-	game,id = Steam(str(ASF_Plus(user).getBot()['SteamID'])).getPlaying()
-	if not id:
+	raw_data = ASF_Plus(user).getBot()
+	game,id = Steam(str(raw_data['SteamID'])).getPlaying()
+	#print(raw_data)
+	onWork = raw_data.get('Enabled')
+	if not id: #or not onWork:
 		game = '没有在玩游戏'
 		return [False,game]
 	
@@ -92,10 +95,20 @@ def getPlaying(user):
 			
 
 app.add_template_global(getUrl, 'getUrl')
-@app.route('/<usern>')
+@app.route('/user/<usern>')
 async def user(usern):
     d = db(usern)
     user_info = d.get('defaultBot')
-    return await render_template('user_info.html', page_title=f'{usern}\'s info',user_info = getNickname(user_info),avaUrl=getAvatar(user_info),steamUrl=getUrl(user_info),gameInfo=getPlaying(user_info))
+    return await render_template('user_info.html', page_title=f'{usern}\'s Bots',user_info = getNickname(user_info),avaUrl=getAvatar(user_info),steamUrl=getUrl(user_info),gameInfo=getPlaying(user_info),bot_name = user_info)
 
 
+@app.route('/Bot/Start/<bot>',methods=['POST'])
+async def botOn(bot):
+    abot = ASF_Plus(bot)
+    return abot.startBot()
+    
+@app.route('/Bot/Stop/<bot>',methods=['POST'])
+async def botOff(bot):
+    abot = ASF_Plus(bot)
+    return abot.stopBot()
+    

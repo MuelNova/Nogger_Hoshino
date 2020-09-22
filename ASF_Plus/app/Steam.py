@@ -35,7 +35,7 @@ class Steam(object):
 		try:
 			return result['players'][0]
 		except:
-			return []
+			return {}
 		
 	
 	def getAvatar(self,size=0,user=''):
@@ -111,21 +111,21 @@ class Steam(object):
 			#Custom to 64Bit
 			url = f'ISteamUser/ResolveVanityURL/v0001/?vanityurl={user}'
 			result = self.getApi(url)
-			if result['success'] == 42:
+			if result and result['success'] == 42:
 				return False
 			return result['steamid']
 			
 #Debug, del it when release
 
 
-test = Steam('nova_noir')
+#test = Steam('nova_noir')
 '''
 print(test.user)
 print(test.regUser('https://steamcommunity.com/profiles/76561197963299487'))
 print(test.regUser('nova_noir'))
 print(test.regUser('76561197963299487'))
 '''
-print(test.getSteamConfig())
+#print(test.getSteamConfig())
 '''
 print(test.getAvatar(size=5))
 '''

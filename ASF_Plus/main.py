@@ -22,12 +22,16 @@ setDefaultCommand = ['设置默认','默认']
 async def e(session):
 	msg = session.current_arg
 	sender = str(session.ctx['user_id'])
+	datab = db(sender)
 	if msg == '':
-		await session.send(MessageSegment.at(int(sender)) + f':https://qasf.novanoir.cn/{sender}')
+		if not datab.get('bot'):
+			await session.send(MessageSegment.at(int(sender)) + '你没有ASF Bot 你A你🐴')
+			return
+		await session.send(MessageSegment.at(int(sender)) + f':https://qasf.novanoir.cn/user/{sender}')
 		return
 	para = msg.split(' ')
 	if len(para) >= 1:
-		datab = db(sender)
+		
 		# 开启Bot
 		if para[0] in startCommand:
 			if datab.get('defaultBot') and len(para) == 1:
