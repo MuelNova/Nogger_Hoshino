@@ -15,8 +15,8 @@ sv = Service('aio_asf')
 
 @sv.on_message()
 async def main(bot,ctx):
-    raw = ctx['raw_message'].lower().split(' ')
-    if re.match('aasf',raw[0]):
+    raw = ctx['raw_message'].split(' ')
+    if re.match('aasf',raw[0].lower()):
         if len(raw) == 2:
             await bot.send(ctx,'马上就用魔法查询{}～'.format(raw[1]))
             b = asfbot(raw[1])
