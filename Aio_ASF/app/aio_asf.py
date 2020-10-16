@@ -1,8 +1,10 @@
 import json
 import re
-
 from .aiorequests import get, post
-from config import asf_url, asfPassword, steamKey
+try:
+    from ..config import asf_url, asfPassword, steamKey
+except:
+    from config import asf_url, asfPassword, steamKey
 from .util import Sqlite
 
 def generate_url(path,para={}):
