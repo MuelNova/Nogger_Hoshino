@@ -21,18 +21,10 @@ class ASF_Plus(ASF):
 			self.steamID = 0
 		
 	def startBot(self,tfa=''):
-		result = f'{self.bot}: {str(self.bot_login(self.bot,tfa))}'
-		return result
-		
-		'''
-	async def startBot(self,session,tfa=''):
-		result = f'{self.bot}: {str(self.bot_login(self.bot,tfa))}'
-		await session.send(result)
-		'''
+		return f'{self.bot}: {str(self.bot_login(self.bot,tfa))}'
 	
 	def stopBot(self):
-		result = f'{self.bot}: {str(self.bot_stop(self.bot))}'
-		return result
+		return f'{self.bot}: {str(self.bot_stop(self.bot))}'
 	
 	def getBot(self):
 		return self.bot_get(self.bot)

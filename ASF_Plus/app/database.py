@@ -7,10 +7,7 @@ class db(object):
 		self.db = SqliteDict(self.getCfgPath(),autocommit=True)
 		
 	def get(self,key=''):
-		if key:
-			return self.db.get(key)
-		else:
-			return self.db.iteritems()
+		return self.db.get(key) if key else self.db.iteritems()
 			
 	def set(self,key='',data=''):
 			if not key:

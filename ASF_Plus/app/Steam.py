@@ -18,8 +18,7 @@ class Steam(object):
 		url = f'http://api.steampowered.com/{r_url}&key={steamKey}'
 		try:
 			r = requests.get(url, timeout=20)
-			result = json.loads(r.text)['response']
-			return result
+			return json.loads(r.text)['response']
 		except:
 			return False
 			
@@ -27,9 +26,9 @@ class Steam(object):
 	def getSteamConfig(self,user=''):
 		if (not user) and self.user:
 			user = self.user
-		elif (not user) and not self.user:
+		elif not user:
 			return False
-			
+
 		url = f'ISteamUser/GetPlayerSummaries/v0002/?steamids={user}'
 		result = self.getApi(url)
 		try:
@@ -48,8 +47,7 @@ class Steam(object):
 		rawData = self.getSteamConfig(user)
 		avatarSize = ['avatarfull','avatarmedium','avatar']
 		try:
-			if avatarSize[size]:
-				pass
+			pass
 		except:
 			size = 0
 		try:
@@ -99,21 +97,19 @@ class Steam(object):
 		if re.match('7656119[0-9]+', user):
 			#64Bit
 			return user
-		else:
-			#URL
-			reg = re.search('^https://steamcommunity.com/([a-zA-Z]*)/(\S+?)/*$', user)
-			if reg:
-				if re.search('[0-9]+',reg.group(2)):
+		if reg := re.search('^https://steamcommunity.com/([a-zA-Z]*)/(\S+?)/*$',
+		                    user):
+			if re.search('[0-9]+', reg[2]):
 					#64Bit
-					return reg.group(2)
-				user = reg.group(2)
-		
-			#Custom to 64Bit
-			url = f'ISteamUser/ResolveVanityURL/v0001/?vanityurl={user}'
-			result = self.getApi(url)
-			if result and result['success'] == 42:
-				return False
-			return result['steamid']
+				return reg[2]
+			user = reg[2]
+
+		#Custom to 64Bit
+		url = f'ISteamUser/ResolveVanityURL/v0001/?vanityurl={user}'
+		result = self.getApi(url)
+		if result and result['success'] == 42:
+			return False
+		return result['steamid']
 			
 #Debug, del it when release
 

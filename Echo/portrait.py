@@ -13,7 +13,10 @@ sv = Service('portrait',help_ = '每日定期更换头像',enable_on_default=Fal
 async def portrait(bot,ctx):
     result = await isReply(ctx['raw_message'])
     if result and result.group(2).strip().upper() == 'PORTRAIT':
-        await bot.set_group_portrait(group_id=ctx['group_id'],file='file:////home/qqbot/NiggerBot/res/portraits/{}'.format(random.choice(os.listdir('/home/qqbot/NiggerBot/res/portraits/'))))
+        await bot.set_group_portrait(
+            group_id=ctx['group_id'],
+            file=f"file:////home/qqbot/NiggerBot/res/portraits/{random.choice(os.listdir('/home/qqbot/NiggerBot/res/portraits/'))}",
+        )
         
         
 @sv.scheduled_job('cron',hour='0')

@@ -22,7 +22,7 @@ class ASF(object):
 			self.isAuth = False
 		if url[-1:] != '/':
 			url += '/'
-		self.__url = url+'Api/'
+		self.__url = f'{url}Api/'
 			
 	def __pathCreate(self,path):
 		if self.isAuth:
@@ -127,31 +127,27 @@ class ASF(object):
 		result = 'Unknown Error'
 		if not req.get('Success') and req.get('Message'):
 			result = req.get('Message')
-		print(f'登录{botName}Post...' + str(req))
-		
+		print(f'登录{botName}Post...{str(req)}')
+
 		time.sleep(5)
 		log = self.generateLog()
 		for i in log:
-			if i[1] == botName and i[2] == 'OnLoggedOn()':
-				if i[0] == 'INFO':
-					return i[3]
-				elif i[0] == 'ERROR':
-					return i[3]
-		return 'ERROR: ' + result
+			if i[1] == botName and i[2] == 'OnLoggedOn()' and i[0] in ['INFO', 'ERROR']:
+				return i[3]
+		return f'ERROR: {result}'
 		
 	def bot_stop(self,botName):
 		req = self.ASF_post(f'Bot/{botName}/Stop')
 		result = 'Unknown Error'
 		if not req.get('Success') and req.get('Message'):
 			result = req.get('Message')
-		print(f'停止{botName}Post...' + str(req))
+		print(f'停止{botName}Post...{str(req)}')
 		time.sleep(3)
 		log = self.generateLog()
 		for i in log:
-			if i[1] == botName and i[2] == 'OnDisconnected()':
-				if i[0] == 'INFO':
-					return i[3]
-		return 'ERROR:' + result
+			if i[1] == botName and i[2] == 'OnDisconnected()' and i[0] == 'INFO':
+				return i[3]
+		return f'ERROR:{result}'
 		
 	def debug(self,tfa):
 		data = {'Type':'TwoFactorAuthentication','Value':tfa}
