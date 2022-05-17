@@ -6,7 +6,7 @@ import sqlitedict
 import yaml
 
 
-config = dict()
+config = {}
 
 
 def getConfig(item=''):
@@ -34,20 +34,18 @@ def getConfig(item=''):
         else:
             with open(cfg_path,'r') as f:
                 config = yaml.load(f.read(),Loader=yaml.FullLoader)
-                
-    # get config
+
     if not item:
         return config
+    if isinstance(item,list):
+        a = config
+        for i in item:
+            a = a.get(i) if isinstance(a,dict) else a
+        return a
+    elif isinstance(item,str):
+        return config.get(item)
     else:
-        if isinstance(item,list):
-            a = config
-            for i in item:
-                a = a.get(i) if isinstance(a,dict) else a
-            return a
-        elif isinstance(item,str):
-            return config.get(item)
-        else:
-            return False
+        return False
                     
             
             

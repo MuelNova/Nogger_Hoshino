@@ -31,10 +31,7 @@ class db(object):
 		self.db = SqliteDict(self.getCfgPath(),autocommit=True)
 		
 	def get(self,key=''):
-		if key:
-			return self.db.get(key)
-		else:
-			return self.db.iteritems()
+		return self.db.get(key) if key else self.db.iteritems()
 			
 	def set(self,key='',data=''):
 			if not key:
@@ -63,22 +60,16 @@ async def hello():
     return 'This is a useless ester egg'
     
 def getNickname(user):
-    url = Steam(str(ASF_Plus(user).getBot()['SteamID'])).getSteamName()
-    if not url:
-       url = '出错！请尝试重新登录！'
-    return url
+	return (Steam(str(ASF_Plus(user).getBot()['SteamID'])).getSteamName()
+	        or '出错！请尝试重新登录！')
     
 def getUrl(user):
-	url = Steam(str(ASF_Plus(user).getBot()['SteamID'])).getSteamProfile()
-	if not url:
-		url = 'https://store.steampowered.com'
-	return url
+	return (Steam(str(ASF_Plus(user).getBot()['SteamID'])).getSteamProfile()
+	        or 'https://store.steampowered.com')
 
 def getAvatar(user):
-	url = Steam(str(ASF_Plus(user).getBot()['SteamID'])).getAvatar()
-	if not url:
-		url = 'https://qasf.novanoir.cn/imgs/NWS_Logo2.png.jpg'
-	return url
+	return (Steam(str(ASF_Plus(user).getBot()['SteamID'])).getAvatar()
+	        or 'https://qasf.novanoir.cn/imgs/NWS_Logo2.png.jpg')
 	
 def getPlaying(user):
 	raw_data = ASF_Plus(user).getBot()

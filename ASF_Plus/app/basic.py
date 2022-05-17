@@ -17,17 +17,16 @@ class asfbot:
 		self.exist = self.isExist()
 		
 	def getConfig(self):
-			path = os.path.join(getConfigPath(),f'{self.name}.cfg')
-			if not os.path.isfile(path):
-				return []
-			else:
-				with open(path,'r') as f:
-					cfg = json.loads(f.read())
-					self.owner = cfg['Owner']
-					return cfg
+		path = os.path.join(getConfigPath(),f'{self.name}.cfg')
+		if not os.path.isfile(path):
+			return []
+		with open(path,'r') as f:
+			cfg = json.loads(f.read())
+			self.owner = cfg['Owner']
+			return cfg
 			
 	def isExist(self):
-		return True if self.config else False
+		return bool(self.config)
 		
 	def delBot(self):
 		path = os.path.join(getConfigPath(),f'{self.name}.cfg')
@@ -42,13 +41,11 @@ class asfbot:
 		resp = asf_re('Bot',self.name,data,True)
 	
 	def loginBot(self,tfa=''):
-		if not self.exist:
-			pass # change it after debuging
 		if tfa:
 			data = {'Type':'TwoFactorAuthentication','Value':tfa}
-			asf_re('Bot',self.name+'/Input',data,True)
+			asf_re('Bot', f'{self.name}/Input', data, True)
 		else:
-			asf_re('Bot',self.name+'/Start',post=True)
+			asf_re('Bot', f'{self.name}/Start', post=True)
 	#	if resp[self.name]:
 		#	return True
 		
@@ -65,27 +62,23 @@ def asf_re(par,bot='',req=[],post=False):
 		url = f'https://asf.novanoir.cn/Api/{par}/{bot}?password={pw}'
 	else:
 		url = f'https://asf.novanoir.cn/Api/{par}?password={pw}'
-	if not post:
-		try:
+	try:
+		if not post:
 			with requests.get(url, timeout=20) as resp:
 				res = resp.json()
 				print(res)
 				return res['Result']
-		except:
-			return False
-	else:
-		try:
+		else:
 			with requests.post(url, timeout=20,json=req) as resp:
 				res = resp.json()
 				print(res)
 				return res['Result']
-		except:
-			return False
+	except:
+		return False
 		
 def asf_addBot(bot,owner):
 	path = os.path.join(getConfigPath(),f'{bot}.cfg')
-	data = asf_re('Bot',bot)[bot]
-	if data:
+	if data := asf_re('Bot', bot)[bot]:
 		with open(path,'w') as config:
 			data.update({'Owner':str(owner)})
 			config.write(json.dumps(data,indent=2))
